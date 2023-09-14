@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conversor de Monedas</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+<div id="containerLoading">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <p>Cargando...</p>
+</div>
+<div class="wrapper">
+    <header>
+        <h1>Conversor de monedas</h1>
+    </header>
+    <main>
+        <div class="info-if-error" id="infoErrorGetData"></div>
+        <form class="currency-converter-form" id="currencyConverterForm">
+            <label for="amountInput">Pesos (CLP):</label>
+            <input type="number" name="amount" id="amountInput" placeholder="Ingrese monto aquí..."/>
+            <div class="error-message" id="amountErrorMessage"></div>
+            <label for="currencySelect">Moneda a convertir:</label>
+            <select name="currency" id="currencySelect">
+                <option value="" disabled selected>Seleccionar moneda...</option>
+            </select>
+            <div class="error-message" id="currencyErrorMessage"></div>
+            <button type="submit" id="btnConvert">
+                Convertir
+            </button>
+        </form>
+        <article class="result" id="result">
+            <small><strong>Instrucciones:</strong> <br /> Ingrese un monto en Pesos Chilenos, luego elija la moneda y finalmente presione el botón Convertir</small>
+        </article>
+        <article>
+            <h1 id="historialTitle" class="historial-title">Historial de valores</h1>
+            <p id="chartDescription"></p>
+            <div id="showChart">
+                <canvas id="canvasChart"></canvas>
+            </div>
+        </article>
+    </main>
+    <footer>
+        <p>Felipe JQ - { <a href="#">repository</a> } ~ Data from <a href="https://mindicador.cl/">mindicador.cl</a></p>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
