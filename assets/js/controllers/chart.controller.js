@@ -1,53 +1,38 @@
-import {getDataFromLocalStorage} from "../services/indicators.service.js";
-import {currencySelect, historialTitle} from "../elements/html.js";
-
 let newChart;
 
-// Chart controller functions.
-export const getDataToChart = async () => {
-    let localData;
-    try {
-        localData = await getDataFromLocalStorage();
-    } catch (e) {
-        throw e;
-    }
-    const indicator = localData[currencySelect.value];
+export const getDataToChart = (indicator = {}) => {
+    let history = indicator.history_last_month
+        .map(hist => {
+            return {date: hist["fecha"], value: hist["valor"]}
+        })
+        .sort((a, b) => a["date"].localeCompare(b["date"]))
+        .slice(indicator.history_last_month.length - 10, indicator.history_last_month.length);
 
-    indicator.history = indicator.history
-        .sort((a, b) => a["fecha"].localeCompare(b["fecha"]))
-        .slice(indicator.history.length - 10, indicator.history.length)
+    const dataFinal = {};
 
-    const labels = indicator.history
-        .map(value => {
-            return new Date(value["fecha"]).toLocaleDateString('es-CL')
-        });
+    history.forEach(item => {
+        dataFinal[new Date(item.date).toLocaleDateString('es-CL')] = item.value;
+    });
 
-    const data = indicator.history
-        .map(value => {
-            return value["valor"];
-        });
-
-    return {
-        indicator: indicator.name,
-        labels,
-        data
-    };
+    return dataFinal;
 }
 
-export const genChart = (canvasChart, chartDescription, chart = {}) => {
-    if (newChart !== undefined){
+export const genChart = (chartContainer, canvasChart, chartDescription, chartTitle, chartData = {}, indicatorName) => {
+
+    if (newChart !== undefined) {
         newChart.destroy();
     }
-    historialTitle.style.display = 'block';
-    chartDescription.innerHTML = `${chart.indicator}: Valores de los últimos 10 días.`;
+
+    chartTitle.style.display = 'block';
+    chartDescription.innerHTML = `${indicatorName}: Valores de los últimos 10 días.`;
 
     newChart = new Chart(canvasChart, {
         type: 'line',
         data: {
-            labels: chart.labels,
+            labels: Object.keys(chartData),
             datasets: [{
                 label: 'Valor del día',
-                data: chart.data,
+                data: Object.values(chartData),
                 borderWidth: 1
             }]
         },
@@ -59,4 +44,5 @@ export const genChart = (canvasChart, chartDescription, chart = {}) => {
             }
         }
     });
+
 }

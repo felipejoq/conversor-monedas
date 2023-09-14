@@ -1,21 +1,15 @@
-import {getConvertResult} from "./controllers/converter.controller.js";
-import {initApp} from "./boot.app.js";
-import {
-    amountInput,
-    containerLoading,
-    currencyConverterForm,
-    currencySelect,
-    infoErrorGetData
-} from "./elements/html.js";
+import {converterForm} from "./components/html.components.js";
+import {triggerConverter} from "./controllers/trigger.controler.js";
+import {bootApp} from "./boot.app.js";
 
-currencyConverterForm.addEventListener('submit', async (event) => {
+
+converterForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    await getConvertResult(amountInput, currencySelect);
+    triggerConverter();
 });
 
-// Launch app:
-initApp()
-    .then(ok => {
-        console.log('Aplicación ok', ok);
-        containerLoading.style.display = 'none';
-    });
+// Booting app
+bootApp();
+
+
+
