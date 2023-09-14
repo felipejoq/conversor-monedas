@@ -1,10 +1,10 @@
-import {getDataFromLocalStorage, isOldData, processingLocalData} from "./services/indicators.service.js";
+import {getDataFromLocalStorage, isOldOrCorruptedData, processingLocalData} from "./services/indicators.service.js";
 import {fillSelect, loadingControl} from "./controllers/elements.controller.js";
 import {containerLoading, currencySelect, infoErrorGetData} from "./components/html.components.js";
 import {showFatalError} from "./helpers/errors.helper.js";
 
 export const bootApp = () => {
-    let renewData = isOldData(getDataFromLocalStorage());
+    let renewData = isOldOrCorruptedData(getDataFromLocalStorage());
     if (renewData) {
         loadingControl(containerLoading, 'show');
         processingLocalData()

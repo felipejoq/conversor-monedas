@@ -48,7 +48,15 @@ export const processingLocalData = async () => {
 }
 
 export const getDataFromLocalStorage = (key = 'indicators') => {
-    return JSON.parse(localStorage.getItem(key)) || [];
+
+    let data;
+    try {
+        data = JSON.parse(localStorage.getItem(key));
+    } catch (e) {
+        console.table(e.message)
+    }
+
+    return data || [];
 }
 
 export const getIndicatorByCode = (code = '') => {
@@ -59,8 +67,8 @@ export const saveDataToLocalStorage = (data, key = 'indicators') => {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-export const isOldData = (dataFromLocalStorage = []) => {
-    if (dataFromLocalStorage.length <= 0) {
+export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
+    if (dataFromLocalStorage.length <= 0 || !dataFromLocalStorage[0].code) {
         return true;
     }
     const {create_at} = dataFromLocalStorage.find(element => element.create_at);
