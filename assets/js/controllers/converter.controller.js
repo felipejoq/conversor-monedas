@@ -4,9 +4,15 @@ import {getDataFromLocalStorage} from "../services/indicators.service.js";
 import {canvasChart, chartDescription, historialTitle, result} from "../elements/html.js";
 import {genChart, getDataToChart} from "./chart.controller.js";
 
+let CLPFormat = new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    maximumFractionDigits: 10
+});
+
 export const getConvertResult = async (amountInput, currencySelect) => {
     const indexIndicator = currencySelect.value;
-    const valueInput = Number(amountInput.value);
+    const valueInput = parseFloat(amountInput.value);
 
     if (validateForm(indexIndicator, valueInput)) {
         return;
@@ -14,16 +20,36 @@ export const getConvertResult = async (amountInput, currencySelect) => {
 
     let data;
     try {
-         data = await getDataFromLocalStorage();
-    }catch (e) {
+        data = await getDataFromLocalStorage();
+    } catch (e) {
         throw e;
     }
-    const indicator = data[indexIndicator];
-    const converted = (valueInput / indicator.value).toFixed(5);
 
-    result.innerHTML = `<p>Resultado: <strong>${valueInput} Peso Chilenos (CLP)</strong> equivalen a:</p><p class="final-result"><strong>${converted}</strong></p><p>${indicator.name}</p>`;
+    showResult(data, indexIndicator, valueInput);
 
     const chart = await getDataToChart();
 
     genChart(canvasChart, chartDescription, chart);
+}
+
+const showResult = (data, indexIndicator, valueInput) => {
+    const indicator = data[indexIndicator];
+    const converted = (parseFloat(valueInput) / parseFloat(indicator.value)).toFixed(5);
+
+    const finalResult = CLPFormat.format(parseFloat(converted));
+    const inputFormatted = CLPFormat.format(valueInput);
+    const dateInfo = new Date(indicator.date)
+        .toLocaleDateString("es-CL", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            timeZone: 'America/Santiago'
+        });
+
+    result.innerHTML = `
+                <p>Resultado: <strong>${inputFormatted} Peso Chilenos (CLP)</strong> equivalen a:</p>
+                <p class="final-result"><strong>${finalResult}</strong></p>
+                <small>${indicator.name} hoy ${dateInfo}.</small>
+               `;
 }

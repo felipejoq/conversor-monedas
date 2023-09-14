@@ -28,7 +28,7 @@ export const saveDataLocalStorage = async () => {
 
     try {
         indicatorsFetch = await getEconomicsIndicators();
-    }catch (e) {
+    } catch (e) {
         throw e
     }
 
@@ -54,7 +54,7 @@ export const saveDataLocalStorage = async () => {
                 history: serie
             }
         }
-    }).filter(indicator => typeof indicator === 'object');
+    }).filter(indicator =>  typeof indicator === 'object' && indicator.unit_measured === 'Pesos')
 
     indicators.push({
         info: {
