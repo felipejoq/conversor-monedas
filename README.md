@@ -12,6 +12,17 @@ Además de crear un gráfico usando la librería Chart.js para mostrar un histor
 ## 📸 Vista previa:
 ![alt text](https://github.com/felipejoq/conversor-monedas/blob/main/assets/img/preview.png?raw=true)
 
+
+### Changelog
+```
+Changelog - 14 de Sep. 2023.
+- Se mejoró la legibilidad del código.
+- Se mejoraron funciones.
+    - Legibilidad.
+    - Dependencias.
+    - Rendimiento.
+```
+
 ## 📚 Stack
 - HTML
 - CSS
