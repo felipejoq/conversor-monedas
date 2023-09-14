@@ -7,7 +7,7 @@ El desafío queda explicado en este archivo pdf y se trata, en resumen, de crear
 ingresar un valor en moneda Chilena y convertir su valor a un indicador que se seleccione en el elemento Select.
 Además de crear un gráfico usando la librería Chart.js para mostrar un historial de valores de los últimos 10 días.
 
-👉 [Live Demo](https://felipejoq.github.com/conversor-monedas) 🚀
+👉 [Live Demo](https://felipejoq.github.io/conversor-monedas/) 🚀
 
 ## 📸 Vista previa:
 ![alt text](https://github.com/felipejoq/conversor-monedas/blob/main/assets/img/preview.png?raw=true)
