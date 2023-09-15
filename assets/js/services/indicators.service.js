@@ -1,4 +1,4 @@
-import {formatDateStandardCL} from "../helpers/formatters.helper.js";
+import {formatDateStandardCL, formatDateToLocale} from "../helpers/formatters.helper.js";
 
 const URL_SERVICE = 'https://mindicador.cl/api';
 
@@ -19,7 +19,6 @@ export const processingLocalData = async () => {
         for (const key of Object.keys(dataFromApi)) {
             if (dataFromApi[key]["codigo"] && dataFromApi[key]["unidad_medida"] === 'Pesos') {
                 const {serie} = await getIndicatorsFromApi(dataFromApi[key]["codigo"]);
-                dataFromApi[key]["fecha"] = formatDateStandardCL(dataFromApi[key]["fecha"]);
                 dataFromApi[key]["serie"] = serie.map(registry => {
                     return {
                         date: formatDateStandardCL(registry['fecha']),
@@ -80,7 +79,9 @@ export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
         return true;
     }
     const {create_at} = dataFromLocalStorage.find(element => element.create_at);
-    const dateData = dataFromLocalStorage[0].date;
+    const dateData = new Date(dataFromLocalStorage[0].date).toLocaleDateString('es-CL', {
+        timeZone: 'America/Santiago'
+    });
 
     return create_at !== dateData;
 }

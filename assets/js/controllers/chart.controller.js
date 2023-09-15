@@ -9,7 +9,7 @@ export const getDataToChart = (indicator = {}) => {
 
     const finalData = {};
     history.forEach(data => finalData[data.date] = data.value);
-    
+
     return finalData;
 }
 
