@@ -4,12 +4,12 @@ let newChart;
 
 export const getDataToChart = (indicator = {}) => {
     let history = indicator.history_last_month
-        .sort((a, b) => a["date"].localeCompare(b["date"]))
-        .slice(indicator.history_last_month.length - 10, indicator.history_last_month.length);
+        .slice(0, 10)
+        .reverse();
 
     const finalData = {};
     history.forEach(data => finalData[data.date] = data.value);
-
+    
     return finalData;
 }
 
