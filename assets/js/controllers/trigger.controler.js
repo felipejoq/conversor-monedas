@@ -34,9 +34,8 @@ export const triggerConverter = () => {
         const date = formatDateToLocale(indicator.date);
 
         const amountFormat = formatNumberToLocale(amountInput.value);
-        const resultFormat = formatNumberToLocale(resultConvert);
 
-        showResultToDOM(showResult, amountFormat, resultFormat, indicator.name, date);
+        showResultToDOM(showResult, amountFormat, resultConvert, indicator.name, date);
         const dataChart = getDataToChart(indicator);
         genChart(showChart, canvasChart, chartDescription, historialTitle, dataChart, indicator.name);
     } catch (e) {

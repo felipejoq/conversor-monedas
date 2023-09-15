@@ -1,5 +1,5 @@
 export const clpToCurrency = (amount, currencyCurrentValue) => {
-    return parseFloat(amount) / parseFloat(currencyCurrentValue);
+    return (parseFloat(amount) / parseFloat(currencyCurrentValue)).toFixed(5);
 }
 
 export const showResultToDOM = (divResult, amount, convertedResult, indicatorName, dateValue) => {
