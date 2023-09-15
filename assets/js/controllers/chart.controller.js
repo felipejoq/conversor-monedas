@@ -59,7 +59,7 @@ export const genChart = (chartContainer, canvasChart, chartDescription, chartTit
                 },
                 subtitle: {
                     display: true,
-                    text: `Valores de los últimos 10 días.`
+                    text: `Últimos 10 registros`
                 }
             },
             responsive: true,
