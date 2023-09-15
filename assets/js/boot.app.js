@@ -21,6 +21,5 @@ export const bootApp = () => {
     } else {
         fillSelect(getDataFromLocalStorage('indicators'), currencySelect);
         loadingControl(containerLoading, 'hidden');
-        console.log('No hay que renovar', renewData)
     }
 }

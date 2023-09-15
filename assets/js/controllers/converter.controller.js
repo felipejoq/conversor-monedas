@@ -9,4 +9,3 @@ export const showResultToDOM = (divResult, amount, convertedResult, indicatorNam
                 <small>${indicatorName} hoy ${dateValue}.</small>
                `;
 }
-

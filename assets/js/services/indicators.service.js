@@ -53,7 +53,7 @@ export const getDataFromLocalStorage = (key = 'indicators') => {
     try {
         data = JSON.parse(localStorage.getItem(key));
     } catch (e) {
-        console.table(e.message)
+        console.log(e);
     }
 
     return data || [];
@@ -68,7 +68,7 @@ export const saveDataToLocalStorage = (data, key = 'indicators') => {
 }
 
 export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
-    if (dataFromLocalStorage.length <= 0 || !dataFromLocalStorage[0].code) {
+    if (dataFromLocalStorage.length <= 0 || !dataFromLocalStorage[0].code || !dataFromLocalStorage) {
         return true;
     }
     const {create_at} = dataFromLocalStorage.find(element => element.create_at);

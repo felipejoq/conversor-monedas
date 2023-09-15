@@ -20,6 +20,7 @@ export const getDataToChart = (indicator = {}) => {
 export const genChart = (chartContainer, canvasChart, chartDescription, chartTitle, chartData = {}, indicatorName) => {
 
     if (newChart !== undefined) {
+        console.log(newChart)
         newChart.destroy();
     }
 

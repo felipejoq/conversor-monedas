@@ -11,6 +11,7 @@ import {clpToCurrency, showResultToDOM} from "./converter.controller.js";
 import {getIndicatorByCode} from "../services/indicators.service.js";
 import {formatDateToLocale, formatNumberToLocale} from "../helpers/formatters.helper.js";
 import {genChart, getDataToChart} from "./chart.controller.js";
+import {bootApp} from "../boot.app.js";
 
 export const triggerConverter = () => {
     if (inputAmountValidation(amountInput)) {
@@ -24,17 +25,23 @@ export const triggerConverter = () => {
         hiddenErrors([amountErrorMessage, currencyErrorMessage]);
     }
 
-    const currencyCurrentValue = getIndicatorByCode(currencySelect.value).current_value;
-    const amount = amountInput.value;
+    try {
+        const currencyCurrentValue = getIndicatorByCode(currencySelect.value).current_value;
+        const amount = amountInput.value;
 
-    const resultConvert = clpToCurrency(amount, currencyCurrentValue);
-    const indicator = getIndicatorByCode(currencySelect.value);
-    const date = formatDateToLocale(indicator.date);
+        const resultConvert = clpToCurrency(amount, currencyCurrentValue);
+        const indicator = getIndicatorByCode(currencySelect.value);
+        const date = formatDateToLocale(indicator.date);
 
-    const amountFormat = formatNumberToLocale(amountInput.value);
-    const resultFormat = formatNumberToLocale(resultConvert);
+        const amountFormat = formatNumberToLocale(amountInput.value);
+        const resultFormat = formatNumberToLocale(resultConvert);
 
-    showResultToDOM(showResult, amountFormat, resultFormat, indicator.name, date);
-    const dataChart = getDataToChart(indicator);
-    genChart(showChart, canvasChart, chartDescription, historialTitle, dataChart, indicator.name);
+        showResultToDOM(showResult, amountFormat, resultFormat, indicator.name, date);
+        const dataChart = getDataToChart(indicator);
+        genChart(showChart, canvasChart, chartDescription, historialTitle, dataChart, indicator.name);
+    } catch (e) {
+        console.log('Error en el trigger', e);
+        bootApp();
+    }
+
 }
