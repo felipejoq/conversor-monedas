@@ -40,7 +40,6 @@ export const triggerConverter = () => {
         const dataChart = getDataToChart(indicator);
         genChart(showChart, canvasChart, chartDescription, historialTitle, dataChart, indicator.name);
     } catch (e) {
-        console.log('Error en el trigger', e);
         bootApp();
     }
 
