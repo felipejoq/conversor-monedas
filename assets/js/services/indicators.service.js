@@ -1,3 +1,5 @@
+import {formatDateStandardCL} from "../helpers/formatters.helper.js";
+
 const URL_SERVICE = 'https://mindicador.cl/api';
 
 export const getIndicatorsFromApi = async (indicator = '') => {
@@ -17,7 +19,13 @@ export const processingLocalData = async () => {
         for (const key of Object.keys(dataFromApi)) {
             if (dataFromApi[key]["codigo"] && dataFromApi[key]["unidad_medida"] === 'Pesos') {
                 const {serie} = await getIndicatorsFromApi(dataFromApi[key]["codigo"]);
-                dataFromApi[key]["serie"] = serie;
+                dataFromApi[key]["fecha"] = formatDateStandardCL(dataFromApi[key]["fecha"]);
+                dataFromApi[key]["serie"] = serie.map(registry => {
+                    return {
+                        date: formatDateStandardCL(registry['fecha']),
+                        value: registry['valor']
+                    }
+                });
                 indicatorsData.push(dataFromApi[key]);
             }
         }
@@ -34,7 +42,7 @@ export const processingLocalData = async () => {
         });
 
         const timestamp = {
-            create_at: new Date().toLocaleDateString('es-CL')
+            create_at: formatDateStandardCL(new Date())
         }
 
         finalArrayData.push(timestamp);
@@ -72,6 +80,7 @@ export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
         return true;
     }
     const {create_at} = dataFromLocalStorage.find(element => element.create_at);
-    const dateData = new Date(dataFromLocalStorage[0].date).toLocaleDateString('es-CL')
+    const dateData = dataFromLocalStorage[0].date;
+
     return create_at !== dateData;
 }

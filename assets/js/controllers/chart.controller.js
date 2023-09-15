@@ -1,20 +1,16 @@
+import {formatNumberToLocale} from "../helpers/formatters.helper.js";
+
 let newChart;
 
 export const getDataToChart = (indicator = {}) => {
     let history = indicator.history_last_month
-        .map(hist => {
-            return {date: hist["fecha"], value: hist["valor"]}
-        })
         .sort((a, b) => a["date"].localeCompare(b["date"]))
         .slice(indicator.history_last_month.length - 10, indicator.history_last_month.length);
 
-    const dataFinal = {};
+    const finalData = {};
+    history.forEach(data => finalData[data.date] = data.value);
 
-    history.forEach(item => {
-        dataFinal[new Date(item.date).toLocaleDateString('es-CL')] = item.value;
-    });
-
-    return dataFinal;
+    return finalData;
 }
 
 export const genChart = (chartContainer, canvasChart, chartDescription, chartTitle, chartData = {}, indicatorName) => {
@@ -31,15 +27,53 @@ export const genChart = (chartContainer, canvasChart, chartDescription, chartTit
         data: {
             labels: Object.keys(chartData),
             datasets: [{
-                label: 'Valor del día',
+                label: 'Valor',
                 data: Object.values(chartData),
-                borderWidth: 1
+                borderWidth: 1,
+
             }]
         },
         options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context, value) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('es-CL', {
+                                    style: 'currency',
+                                    currency: 'CLP'
+                                }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: `${indicatorName}`
+                },
+                subtitle: {
+                    display: true,
+                    text: `Valores de los últimos 10 días.`
+                }
+            },
+            responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            return new Intl.NumberFormat('es-CL', {
+                                style: 'currency',
+                                currency: 'CLP'
+                            }).format(value);
+                        }
+                    }
                 }
             }
         }

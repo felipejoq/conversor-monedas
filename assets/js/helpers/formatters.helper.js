@@ -17,3 +17,7 @@ export const formatNumberToLocale = (number) => {
     });
     return CLPFormat.format(number);
 }
+
+export const formatDateStandardCL = (dateString) => {
+    return new Date(dateString).toLocaleDateString('es-CL', {timeZone: 'America/Santiago'})
+}
