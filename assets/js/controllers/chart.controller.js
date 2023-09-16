@@ -1,5 +1,3 @@
-import {formatNumberToLocale} from "../helpers/formatters.helper.js";
-
 let newChart;
 
 export const getDataToChart = (indicator = {}) => {

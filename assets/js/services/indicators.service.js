@@ -79,9 +79,11 @@ export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
         return true;
     }
     const {create_at} = dataFromLocalStorage.find(element => element.create_at);
-    const dateData = new Date(dataFromLocalStorage[0].date).toLocaleDateString('es-CL', {
+    const dateData = new Date().toLocaleDateString('es-CL', {
         timeZone: 'America/Santiago'
     });
+
+    console.log({create_at, dateData})
 
     return create_at !== dateData;
 }
