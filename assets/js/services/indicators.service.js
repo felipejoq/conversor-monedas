@@ -83,7 +83,5 @@ export const isOldOrCorruptedData = (dataFromLocalStorage = []) => {
         timeZone: 'America/Santiago'
     });
 
-    console.log({create_at, dateData})
-
     return create_at !== dateData;
 }
